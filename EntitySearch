@@ -1,0 +1,52 @@
+Public Declare Function SetCursorPos Lib "user32" (ByVal x As Long, ByVal y As Long) As Long
+Public Declare Sub mouse_event Lib "user32" (ByVal dwFlags As Long, ByVal dx As Long, ByVal dy As Long, ByVal cButtons As Long, ByVal dwExtraInfo As Long)
+Public Const MOUSEEVENTF_LEFTDOWN = &H2
+Public Const MOUSEEVENTF_LEFTUP = &H4
+Public Const MOUSEEVENTF_RIGHTDOWN As Long = &H8
+Public Const MOUSEEVENTF_RIGHTUP As Long = &H10
+Public Const XBINOCS As Integer = 1055
+Public Const YBINOCS As Integer = 130
+Public Const XCLEAR As Integer = 1210
+Public Const YCLEAR As Integer = 130
+Public Const XLASTNAME As Integer = 1080
+Public Const YLASTNAME As Integer = 480
+Public Const XFIRSTNAME As Integer = 1080
+Public Const YFIRSTNAME As Integer = 500
+Public Const XID As Integer = 1040
+Public Const YID As Integer = 238
+
+
+Sub EntityLookup()
+    'VBA Script by Bill Golembieski 10/1/2015
+    'Must have Excel open in Left Half of screen (Win key + Left Arrow)
+    'Must have Internet Explorer open in Right Half of Window (Win key + Right Arrow)
+    'Highlight the last name Cell by clicking on it ONCE. NO MORE, NO LESS, 3 IS RIGHT OUT
+    'Acivate Script by Pressing Cnt + Shift + F
+    
+    FIRSTNAME = ActiveCell.Offset(0, 1).Value()
+    LASTNAME = ActiveCell.Value()
+    SetCursorPos XCLEAR, YCLEAR
+    mouse_event MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0
+    mouse_event MOUSEEVENTF_LEFTUP, 0, 0, 0, 0
+    Application.Wait (Now + TimeValue("0:00:02"))
+    SetCursorPos XBINOCS, YBINOCS
+    mouse_event MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0
+    mouse_event MOUSEEVENTF_LEFTUP, 0, 0, 0, 0
+    Application.Wait (Now + TimeValue("0:00:02"))
+    
+    SetCursorPos XLASTNAME, YLASTNAME
+    mouse_event MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0
+    mouse_event MOUSEEVENTF_LEFTUP, 0, 0, 0, 0
+    SendKeys LASTNAME, Wait
+
+    SetCursorPos XFIRSTNAME, YFIRSTNAME
+    mouse_event MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0
+    mouse_event MOUSEEVENTF_LEFTUP, 0, 0, 0, 0
+    
+    SendKeys FIRSTNAME, Wait
+    
+    SendKeys "{ENTER}", True 'hit enter
+    
+    SetCursorPos XID, YID
+End Sub
+
